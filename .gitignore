@@ -8,7 +8,7 @@
 *.out
 *.exe
 *.a
-so_long
+philo
 
 # Temp files
 *.swp

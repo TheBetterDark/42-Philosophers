@@ -6,19 +6,16 @@
 #    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/12 23:59:26 by muabdi            #+#    #+#              #
-#    Updated: 2024/07/31 15:06:35 by muabdi           ###   ########.fr        #
+#    Updated: 2024/08/23 16:03:08 by muabdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 INCLUDES = ./includes
-LIBS = ./libs
-
-LIBFT = $(LIBS)/libft
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3
-INCLUDEFLAGS = -I$(INCLUDES) -I$(LIBFT)/includes
+CFLAGS = -Wall -Werror -Wextra -pthread
+INCLUDEFLAGS = -I$(INCLUDES)
 
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -43,28 +40,20 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDEFLAGS) -c $< -o $@
 
 ${NAME}: $(OBJS)
-	@make -C $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "${GREEN}$(NAME) created.${NC}"
 
 all: $(NAME) $(OBJ_DIR)
 
 clean:
-	@make clean -C $(LIBFT)
 	@rm -rf $(OBJ_DIR)
 
 fclean:
-	@make fclean -C $(LIBFT)
 	@rm -rf $(OBJ_DIR)
 	@rm -f $(NAME)
 	@echo "${GREEN}$(NAME) cleaned.${NC}"
 
 re: fclean all
 	@echo "${GREEN}Target 're' completed.${NC}"
-
-libs:
-	@echo "${YELLOW}Updating submodules...${NC}"
-	@git submodule update --init --recursive --remote
-	@echo "${GREEN}Submodules updated.${NC}"
 
 .PHONY: all clean fclean re
